@@ -1,0 +1,98 @@
+<html>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>
+<script>
+
+/**
+ * render 
+ */
+  window.onload=()=>{
+      const MyComponent = () => {
+          return [{
+              tag: 'div',
+              props: {
+                  text: 'nihao',
+                  onClick: (e) => {
+                      console.log(e)
+                  }
+              },
+              children: 'content test'
+          }, {
+                  tag: 'div',
+                  props: {
+                      text: 'nihao',
+                      onClick: (e) => {
+                          console.log(e)
+                      }
+                  },
+                  children: 'content nihao'
+              }]
+      }
+      const ObjectComponent = {
+        render(){
+            return {
+                  tag: 'div',
+                  props: {
+                      text: 'nihao',
+                      onClick: (e) => {
+                          console.log(e)
+                      }
+                  },
+                  children: 'Object Components'
+              }
+        }
+      }
+      const renderer = (vnode, container) => {
+          if(Array.isArray(vnode)){
+            vnode.forEach(node=>{
+                renderer(node,container)
+            })
+          }
+          if (typeof vnode.tag === 'string') {
+              createElement(vnode, container)
+          }
+          else if (typeof vnode.tag === 'function') {
+              createComponent(vnode, container)
+          }
+          else if (typeof vnode.tag === 'object' && vnode.tag.render){
+              renderer(vnode.tag.render(),container)
+          }
+      }
+      function createElement(vnode, container) {
+          const el = document.createElement(vnode.tag)
+          if (el) {
+              vnode.props && Object.entries(vnode.props).forEach(([key, value]) => {
+                  //说明是事件
+                  if (/^on/.test(key) && typeof value === 'function') {
+                      el.addEventListener(key.substr(2), value)
+                  }
+                  else {
+                      el.setAttribute(key, value)
+                  }
+              })
+              if (vnode.children) {
+                  if (typeof vnode.children === 'string') {
+
+                      el.appendChild(document.createTextNode(vnode.children))
+                  }
+                  else if (Array.isArray(vnode.children)) {
+                      vnode.children.forEach((child) => { renderer(child, el) })
+                  }
+              }
+              container.appendChild(el)
+          }
+
+      }
+      function createComponent(vnode, container) {
+          const subtree = vnode.tag()
+          renderer(subtree, container)
+      }
+      renderer([{
+          tag: MyComponent
+      },{
+        tag:ObjectComponent
+      }], document.querySelector('#app'))
+  }
+</script>
