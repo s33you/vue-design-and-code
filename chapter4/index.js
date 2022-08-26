@@ -1,4 +1,5 @@
 let activeEffect = null;
+let a = null;
 const bucket = new Set()
 const data = {text:'hello world'}
 const effect = (fn => {
@@ -17,6 +18,10 @@ const obj = new Proxy(data,{
         return true
     }
 })
+/**
+ * 这语法想起了什么？没错就是watch
+ */
 effect(()=>{
-    let a = obj.
+     a = obj.text
+     console.log(a)
 })
