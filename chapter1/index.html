@@ -11,8 +11,12 @@
     </body>
 </html>
 <script>
-    window.onload = ()=>{
-        //createElement
+    window.onload = async ()=>{
+        const sleep = (time)=>{
+            return new Promise(res=>{
+                setTimeout(()=>{res()},time)
+            })
+        }
         const app = document.getElementById('app');
         
         console.time('createElement')
@@ -23,6 +27,7 @@
             div.innerText = `Hello ${i}`;
             div.appendChild(span)
             app.appendChild(div);
+            await sleep(0)
         }
         console.timeEnd('createElement')
 
