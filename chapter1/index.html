@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>innnerHTML vs document.createElement</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>
+<script>
+    window.onload = ()=>{
+        //createElement
+        const app = document.getElementById('app');
+        
+        console.time('createElement')
+        for (let i = 0; i < 10000; i++) {
+            const div = document.createElement('div');
+            const span = document.createElement('span')
+            span.innerText = 'World';
+            div.innerText = `Hello ${i}`;
+            div.appendChild(span)
+            app.appendChild(div);
+        }
+        console.timeEnd('createElement')
+
+        //clear
+        const body = document.getElementsByTagName('body')[0];
+        body.removeChild(app);
+        body.innerHTML = '<div id="app"></div>';
+
+        //innerHTML
+        const app2 = document.getElementById('app');
+        const contents = [];
+        console.time('innerHTML')
+        for (let i = 0; i < 10000; i++) {
+            contents.push(`<div>Hello ${i} World</div>`);
+        }
+        app2.innerHTML = contents.join('\n');
+        console.timeEnd('innerHTML')
+
+
+
+
+    }
+</script>
