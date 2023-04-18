@@ -17,17 +17,18 @@
                 setTimeout(()=>{res()},time)
             })
         }
+      
         const app = document.getElementById('app');
         
         console.time('createElement')
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 1000; i++) {
             const div = document.createElement('div');
             const span = document.createElement('span')
             span.innerText = 'World';
             div.innerText = `Hello ${i}`;
             div.appendChild(span)
             app.appendChild(div);
-            await sleep(0)
+            // await sleep(0)
         }
         console.timeEnd('createElement')
 
@@ -40,13 +41,11 @@
         const app2 = document.getElementById('app');
         const contents = [];
         console.time('innerHTML')
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 1000; i++) {
             contents.push(`<div>Hello ${i} World</div>`);
         }
         app2.innerHTML = contents.join('\n');
         console.timeEnd('innerHTML')
-
-
 
 
     }
