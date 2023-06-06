@@ -152,7 +152,7 @@
                 else if (oldStartVNode.key === newEndVNode.key) {
                     //更新内容
                     patch(oldStartVNode, newEndVNode, container)
-                    //移动旧头到到新尾
+                    //原来的头变成了现在的尾，调整dom;
                     insert(oldStartVNode.el, container, oldEndVNode.el.nextSibling)
 
                     oldStartVNode = oldChildren[++oldStartIdx]
@@ -162,7 +162,7 @@
                     //更新内容
                     patch(oldEndVNode, newStartVNode, container)
 
-                    //说明 原来的尾是现在的头,在原来的头之前插入节点
+                    //原来的尾变成了现在的头，调整dom;
                     insert(oldEndVNode.el, container, oldStartVNode.el)
 
                     //更新index 和节点
@@ -175,7 +175,7 @@
                 else {
                     //四种方式都没有命中,从旧结点里面寻找与 新节点数组 头部 key 相同的下标
                     const idxInOld = oldChildren.findIndex(node => node.key === newStartVNode.key)
-                    //为什么不是 >= ,都头对头了还比较什么呢
+                    //为什么不是 >= ,因为 都头对头了还比较什么呢
                     if (idxInOld > 0) {
                         const vnodeToMove = oldChildren[idxInOld]
                         //更新

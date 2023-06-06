@@ -58,7 +58,7 @@ function trigger(target, key) {
         fn()
     })
 }
-
+//清除副作用，每次收集前，先清除副作用
 function cleanUp(fn){
     for(let i = 0;i<fn.deps.length;i++){
         const effects = fn.deps[i] // 拿到依赖集合

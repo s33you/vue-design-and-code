@@ -13,7 +13,6 @@ function effect(fn) {
 }
 
 function track(target, key) {
-    debugger;
     if (!activeEffect) {
         return
     }
